@@ -1,0 +1,165 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{graphicx}
+\author{\c{T}OCA Sebastian - Bogdan}
+\title{\Huge Ferma unchiului John}
+\date{Sesiunea de \emph{Iarn\u{a} 2023}}
+
+\begin{document}
+\maketitle
+
+%\begin{abstract}\end{abstract}
+
+    Pentru rezolvarea problemei, am \^imp\u{a}r\c{t}it aplica\c{t}ia \^in dou\u{a} p\u{a}r\c{t}i:
+\begin{itemize}
+    	\item o parte ce cuprinde crearea fermelor de g\u{a}ini \c{s}i a server-ului (\textbf{Ferma\_John.java});
+    	\item o parte ce cuprinde activitatea angaja{t}ilor fermei (\textbf{AngajatClient.java}).
+	\end{itemize}
+	
+\section{Partea 1 - \textbf{Ferma\_John.java}}
+    Au fost create urm\u{a}toarele clase:
+    \begin{enumerate}
+      \item clasa Ferma ce extinde clasa Thread pentru monitorizarea fermei din 5 \^{i}n 5 secunde;
+      \item clasa  Gaina ce extinde clasa Thread pentru monitorizarea fiec\u{a}rei g\u{a}ini;
+      \item clasa Multi ce extinde clasa Thread pentru tratarea solict\u{a}rilor venite de la angaja\c{t}i;
+      \item clasa Ferma\_John ce creeaz\u{a} vectorul de ferme c\^{a}t \c{s}i server-ul.
+    \end{enumerate}
+    
+\subsection{Clasa Ferma}
+	\^{I}n cadrul acestei clase am declarat urm\u{a}toarele atribute \c{s}i obiecte:
+	\begin{enumerate}
+		\item \textbf{N} ce reprezint\u{a} dimensiunea matricei din ferm\u{a}
+		\item \textbf{mat} matricea unde sunt pozitionate gainile din ferm\u{a}
+		\item \textbf{oua} matricea unde sunt pozitionate ouale in ferme
+		\item \textbf{nr\_gaini} ce re\c{t}ine numarul gainilor din ferm\u{a}
+		\item \textbf{gaini} vectorul de obiecte (gainile din ferm\u{a})
+  		\item \textbf{timp\_monitorizare} num\u{a}rul de milisecunde pentru monitorizare ferm\u{a}  
+		\item \textbf{ferma\_nr} num\u{a}rul fermei
+  		\item \textbf{ou\_depus} arat\u{a} dac\u{a} s-a depus cel pu\c{t}in un ou \^{i}n ferm\u{a}
+		\item \textbf{angajat\_nr} re\c{t}ine num\u{a}rul angajatul care adun\u{a} ou\u{a}le
+	\end{enumerate}
+	Iar ca metode folosite:
+	\begin{enumerate}
+		\item Comstrutorul \textbf{Ferma(numarul\_fermei, dim\_N, vectorul\_gaini, ng1, ng2)},  unde \textbf{ng1},\textbf{ng2} partea de \^{i}nceput \c{s}i sfar\c{s}it din vectorul\_gaini;
+		\item \textbf{get\_Ferma()} returneaz\u{a} un obiect tip Ferma;
+		\item \textbf{Initializare\_Ferma()} la \^{i}nceput nu avem g\u{a}ini pozi\c{t}ionate \^{i}n ferm\u{a} \c{s}i nici ou\u{a} \^{i}n ferm\u{a};
+		\item \textbf{Aranjare\_Gaini(vector\_g\u{a}ini)} a\c{s}eaz\u{a} aleator g\u{a}inile \^{i}n ferm\u{a};
+		\item \textbf{afisare\_Ferma()} permite afi\c{s}area fermei la fiecare fir de execu\c{t}ie;
+		\item \textbf{afisare\_vector\_oua()} creaz\u{a} un fi\c{s}ier pentru fiecare angajat cu pozi\c{t}ia ou\u{a}lelor din ferm\u{a};		
+		\item \textbf{verifica\_poz(x,y)} returneaz\u{a} TRUE dac\u{a} este liber\u{a} casu\c{t}a unde se deplaseaz\u{a} gaina sau nu a atins limtele fermei;
+		\item \textbf{deplasare\_gaina()} permite deplasarea fiec\u{a}rei g\u{a}ini prin ferm\u{a}. Aici se a\c{s}teapt\u{a} un timp aleator \textbf{t}, unde 10 <= t <= 50 milisecunde p\^{a}n\u{a} la urm\u{a}toarea mutare posibil\u{a} a g\u{a}inii, dac\u{a} este \^{i}nconjurat\u{a} de alte g\u{a}ini;
+		\item metoda \textbf{run()} ce execut\u{a} fiecare fir \^{i}n parte;
+		\item \textbf{set\_ou\_depus(boolean)} specific\u{a} c\u{a} a fost depus cel pu\c{t}in un ou \^{i}n ferm\u{a};
+		\item \textbf{get\_ou\_depus()} returneaz\u{a} dac\u{a} a fost depus cel pu\c{t}in un ou \^{i}n ferm\u{a};
+		\item \textbf{set\_angajat\_nr(int)} seteaz\u{a} num\u{a}rul angajatului care va colecta ou\u{a}le din ferm\u{a}.
+	\end{enumerate}
+	
+\subsection{Clasa Gaina}
+	\^{I}n cadrul acestei clase am declarat urm\u{a}toarele atribute \c{s}i obiecte:
+	\begin{enumerate}
+		\item \textbf{timp\_ou} repreyint\u{a} timpul de depunere a ou\u{a}lelor aleator;
+  		\item \textbf{pozitie\_x},\textbf{pozitie\_y} reprezint\u{a} pozi\c{t}ia unde se afl\u{a} gaina;
+  		\item \textbf{ou\_depus} indic\u{a} dac\u{a} a fost depus oul sau nu;
+  		\item \textbf{gaina\_nr} num\u{a}rul g\u{a}inii din ferme (Fiecare g\u{a}in\u{a} are un num\u{a}r unic);
+	\end{enumerate}
+	Iar ca metode folosite:
+	\begin{enumerate}
+		\item \textbf{Gaina(int x, int y, int ng)} constructorul de ini\c{t}ializare g\u{a}ina, a\c{s}ezarea g\u{a}inii cu num\u{a}rul \textit{ng} pe coordonate (x,y) \^{i}n ferm\u{a};
+		\item \textbf{get\_x()} returneaz\u{a} pozi\c{t}ia g\u{a}inii pe linie;
+		\item \textbf{get\_y()} returneaz\u{a} pozi\c{t}ia g\u{a}inii pe coloan\u{a};
+		\item \textbf{get\_gaina\_nr()} returneaz\u{a} num\u{a}rul g\u{a}inii din ferm\u{a}
+		\item \textbf{set\_x(int)} seteaz\u{a} pozi\c{t}ia g\u{a}inii pe linie;
+		\item \textbf{set\_y(int)} seteaz\u{a} pozi\c{t}ia g\u{a}inii pe coloan\u{a};
+		\item \textbf{depune\_ou()} metoda \^{i}n care g\u{a}ina depune ou, apoi se odihne\c{s}te aproximativ 30 milisecunde;
+		\item \textbf{deplasare\_gaina()}  genereaz\u{a} o posibil\u{a} deplasare a g\u{a}inii;
+		\item metoda \textbf{run()} ce execut\u{a} fiecare fir \^{i}n parte;
+	\end{enumerate}
+	
+\subsection{Clasa Multi}
+	Aceasta tratez\u{a} fire multiple de execu\c{t}ie a solict\u{a}rilor venite la server;
+	\^{I}n cadrul acestei clase am declarat urm\u{a}toarele atribute \c{s}i obiecte: 
+	\begin{enumerate}
+		\item \textbf{s} obiect al clasei \textbf{Socket};
+  		\item \textbf{infromClient} obiect al clasei \textbf{DataInputStream};
+  		\item \textbf{out} obiect al clasei \textbf{OutputStream};
+  		\item \textbf{writer}cobiect al clasei \textbf{BufferedWriter};
+  		\item \textbf{solicitare\_angajat} reprezint\u{a} angajatul care solicit\u{a} informa\c{t}ii despre ferm\u{a};
+  		\item \textbf{fj} obiect al clasei \textbf{Ferma\_John};
+  		\item \textbf{sunt\_oua\_la\_ferma} arat\u{a} dac\u{a} sunt ou\u{a} depuse de g\u{a}ini la ferm\u{a}
+	\end{enumerate}
+   	Iar ca metode folosite:	
+   	\begin{enumerate}
+   		\item Constructorul \textbf{Multi(Socket s,Ferma\_John fj)} unde se ini\c{t}ializeaz\u{a} fluxurile de intrare/iesire \^{i}ntre server \c{s}i angaja\c{t}i;
+   		\item metoda \textbf{run()} trateaz\u{a} fiecare solicitare a angaja\c{t}ilor, verific\u{a} dac\u{a} sunt depuse ou\u{a} \^{i}n ferm\u{a} \c{s}i r\u{a}spunde clientului (angajatului);
+	\end{enumerate} 
+
+\subsection{Clasa Ferma\_John}
+	Aceasta tratez\u{a} execu\c{t}ia simultan\u{a} a fermelor. 
+	\begin{enumerate}
+		\item \textbf{vector\_gaini} se creeaz\u{a} vectorul de g\u{a}ini (fiecare g\u{a}in\u{a} are alocat un num\u{a}r unic;
+		\item \textbf{nr\_gaini} num\u{a}rul g\u{a}inilor din ferm\u{a};  
+  		\item \textbf{nr\_ferme} num\u{a}rul de ferme;
+ 		\item \textbf{f} vectorul de obiecte tip Ferma.
+	\end{enumerate}	
+	Iar ca metode folosite:	
+	\begin{enumerate}
+		\item constructorul \textbf{Ferma\_John(int n)} ini\c{t}ializea\u{a} fermele, unde n reprezint\u{a} num\u{a}rul de g\u{a}ini/ \^{I}n cadrul contructorului se distribuie g\u{a}inile aleator \^{i}n ferme;
+		\item \textbf{StartFerma(} porne\c{s}te fiecare fir (ferm\u{a});
+		\item \textbf{afisare\_vector\_gaini()} tip\u{a}re\c{s}te vectorul de g\u{a}ini
+		\item \textbf{afisare\_ferma\_oua()} returneaz\u{a} num\u{a}rul fermei de unde se pot colecta ou\u{a};
+		\item metoda principal\u{a} \textbf{main} unde se creeaz\u{a} ferma \c{s}i server-ul.
+	\end{enumerate}
+
+\section{Partea 2 - AngajatClient.java}
+ 	Au fost create urm\u{a}toarele clase:
+    \begin{enumerate}
+      \item clasa ReceiverClient  ce extinde clasa Thread pentru tratarea r\u{a}spunsului favorabil primit de la ferm\u{a} (de la server);
+      \item clasa  AngajatClient ce extinde clasa Thread pentru tratarea r\u{a}spunsului primit de la ferm\u{a} (de la server). Aici se \^{i}ntreab\u{a} ferma dac\u{a} sunt ou\u{a} de adunat;
+    \end{enumerate}
+    
+\subsection{Clasa ReceiverClient}
+	Este o extensie a clasei Thread, pentru a executa fire independente.	
+	\^{I}n cadrul acestei clase am declarat atribute \c{s}i obiecte pentru men\c{t}inerea fluxurilor de comunicare \^{i}ntre client \c{s}i server, c\^{a}t \c{s}i 
+	\begin{enumerate}
+		\item \textbf{angajat\_nr} pentru angajatul ce solicit\u{a} informa\c{t}iil;
+ 		\item \textbf{v} matricea cu ou\u{a} ale fermei;
+  		\item \textbf{n} dimensiunea matricei fermei NxN
+  		\item \textbf{ferma\_nr} num\u{a}rul fermei de unde adun\u{a} angajatul ou\u{a}le.
+	\end{enumerate}		
+	Iar ca metode folosite:
+	\begin{enumerate}
+		\item Constructorul \textbf{ReceiverClient(AngajatClient chat, InputStream in, int angajat\_nr)} unde se ini\c{t}ializeaz\u{a} fluxurile de intrare de la server \c{s}i num\u{a}rul angajatului;
+		\item \textbf{citire\_fisier()} cite\c{s}te din fi\c{s}ierul alocat fiec\u{a}rui angajat datele despre ferma de unde adun\u{a} aou\u{a}le;
+		\item \textbf{afisare\_oua()} afi\c{s}eaz\u{a} matricea fermei de ou\u{a} \c{s}i num\u{a}rul de ou\u{a} colectate;
+   		\item metoda \textbf{run()} trateaz\u{a} fiecare r\u{a}spuns al server-ului, dac\u{a} sunt ou\u{a} de colectat, iar \^{i}n caz afirmativ afi\c{s}eaz\u{a} matricea fermei;
+   		\item \textbf{stopThread()} opre\c{s}te din execu\c{t}ie firul curent.
+	\end{enumerate}
+	
+\subsection{Clasa AngajatClient}
+	\^{I}n cadrul acestei clase am declarat atribute \c{s}i obiecte pentru men\c{t}inerea fluxurilor de comunicare \^{i}ntre client \c{s}i server.
+	Metode folosite:
+	\begin{enumerate}
+		\item \textbf{AngajatClient(String address, int port, int angajat\_nr)} constructorul care stabile\c{s}te adresa IP c\^{a}t \c{s}i portul pe care ascult\u{a} clientul;
+		\item \textbf{connect()} returneaz\u{a} TRUE sau FALSE dac\u{a} s-a stabilit conexiunea cu server-ul sau nu;
+		\item metoda \textbf{run()} trateaz\u{a} solicitarea c\u{a}tre server pentru a colecta ou\u{a};
+		\item \textbf{stopThread()} opre\c{s}te din execu\c{t}ie firul curent;
+		\item metoda principal\u{a} \textbf{main} unde se creeaz\u{a} lista de angaja\c{t}i, a conxiunii \c{s}i porne\c{s}te fiecare fir (angajat \^{i}n parte, aloc\^{a}ndu-i un timp de a\c{s}teptare de 2000 milisecunde.
+	\end{enumerate}
+	
+\section{Compilare \c{s}i executare}
+\subsection{Compilare}
+	\^{I}n folderul unde se afl\u{a} cele dou\u{a} coduri surs\u{a} JAVA am deschis dou\u{a} ferestre \textbf{Command Prompt}, apoi \^{i}n una dintre acestea am lansat comenzile:
+	\begin{enumerate}
+		\item \textbf{javac Ferma\_John.java}
+		\item \textbf{javac AngajatClient.java}
+	\end{enumerate}
+	
+\subsection{Lansarea \^{i}n execu\c{t}ie}
+	\^{I}n prima fereastr\u{a} de \textbf{Command Prompt} vom lansa serverul, tast\^{a}nd: 
+	\newline 
+	\begin{center} \textbf{java Ferma\_John}\end{center}
+	\includegraphics[width=15cm, height=10cm]{Ferma\_John.png} 
+	
+	Apoi, \^{i}n a doua fereastr\u{a} de \textbf{Command Prompt} vom lansa aplica\c{t}ia de tip client, cea a angaja\c{t}ilor, tast\^{a}nd: 
+	\newline \begin{center} \textbf{java AngajatClient}\end{center}
+	\includegraphics[width=15cm, height=10cm]{AngajatClient.png} 
+\end{document}
